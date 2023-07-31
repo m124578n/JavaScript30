@@ -57,9 +57,40 @@
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
-<script>
-
-</script>
+  <script>
+    function playSound(e){
+      // console.log(e); // 由此知道 e 代表的 keyboardEvent 的內容，本次會取 keyCode 做主要利用
+      
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`); // 依照所按下的按鍵，選取對應的音檔
+      // console.log(audio);
+      if(audio){
+        audio.currentTime = 0; // 初始化音檔，達成連續播放
+        audio.play();
+      } 
+    
+      const key = document.querySelector(`div[data-key="${e.keyCode}"]`); // 依照所按下的按鍵，選取與之對應的元素 <div> 
+      // console.log(key);
+      if(key){
+        key.classList.add('playing'); // 在對應的元素添加名為 "playing" 的 class
+      } 
+    }
+    
+    function removeTranstion(e){
+      // console.log(e); // 由此知道每個屬性都會有自己獨特的 "transitionend"
+      if(e.propertyName === 'transform'){ // 取 "transform" 為基準
+        e.currentTarget.classList.remove('playing');  // 在對應元素移除名為 "playing" 的 class
+      }
+    }
+    
+    const key = document.querySelectorAll('.key'); // 選取所有包含 class => "key" 的元素  
+    // console.log(key);
+    
+    key.forEach(key => { // 與 for 迴圈類似，可以遍歷 key 物件中的元素
+      key.addEventListener('transitionend', removeTranstion); // 將所有元素增加 'transitionend' 事件的監聽
+    })
+    
+    window.addEventListener('keydown', playSound); // 在網頁增加 'keydown' 事件的監聽
+  </script>
 
 
 </body>

@@ -182,6 +182,21 @@
     </li>
   </ul>
 <script>
+  const timeNodes = [...document.querySelectorAll('[data-time')]; // 預設為 NodeList
+  console.log(timeNodes);
+
+  const seconds = timeNodes
+    .map(timeNode => timeNode.dataset.time)
+    .map(time => {
+      const [min, sec] = time.split(':');
+      return min * 60 + sec * 1; // 強制轉型
+    })
+    .reduce((total, second) => total + second, 0);
+  console.log(seconds)
+  const hour = Math.floor(seconds / 3600);
+  const min = Math.floor((seconds % 3600) / 60);
+  const sec = seconds % 60;
+  console.log(`${hour}:${min}:${sec}`);
 </script>
 </body>
 </html>

@@ -28,7 +28,47 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const items = JSON.parse(localStorage.getItem('items')) || []; // 如果有本地端儲存的 items 變數則使用，否則為空
+
+  function addItem(e) {
+  e.preventDefault(); // 取消 DOM 的預設操作
+  const text = (this.querySelector('[name=item]')).value; // 抓取輸入框的值
+  const item = {
+    text,
+    done: false
+  };
+
+  items.push(item); 
+  populateList(items, itemsList); // 將輸入的 item 輸出至網頁上
+  localStorage.setItem('items', JSON.stringify(items)); // 在本地端設置名為 'items' 的變數，並存入 JSON 後的 items
+  this.reset(); // 重置輸入框
+  }
+
+  function populateList(plates = [], platesList) {
+  platesList.innerHTML = plates.map((plate, i) => {
+    return `
+      <li>
+        <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''} />
+        <label for="item${i}">${plate.text}</label>
+      </li>
+    `;
+  }).join(''); // 消除 List 元素之間自動有的逗號
+  }
+
+  function toggleDone(e) {
+  console.log(e.target.dataset.index);
+  if (!e.target.matches('input')) return; // skip this unless it's an input
+  const el = e.target;
+  const index = el.dataset.index;
+  items[index].done = !items[index].done;
+  localStorage.setItem('items', JSON.stringify(items));
+  populateList(items, itemsList);
+  }
+
+  addItems.addEventListener('submit', addItem);
+  itemsList.addEventListener('click', toggleDone);
+
+  populateList(items, itemsList); // 如果有本地端儲存的 items 則輸出到畫面
 
 </script>
 

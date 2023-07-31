@@ -96,6 +96,31 @@
   </div>
 
 <script>
+  const checkboxs = document.querySelectorAll('.inbox input[type="checkbox"]');
+  console.log(checkboxs);
+  let lastCheckbox;
+
+  function handleCheck(e){
+    console.log(e);
+    console.log(this);
+    console.dir(this);
+    let isBetween = false;
+
+    if(e.shiftKey === true && this.checked === true){ // 後者為確定是勾選而不是取消
+      checkboxs.forEach(checkbox => {
+        if(checkbox === lastCheckbox || checkbox === this){
+          isBetween = !isBetween // 做區間開關
+        }
+        if(isBetween === true) checkbox.checked = true; // 區間內的自己選取
+      });
+    }
+    lastCheckbox = this;
+  }
+
+
+  checkboxs.forEach(checkbox => 
+    checkbox.addEventListener('click', handleCheck) // addEventListener 在 functions 加上 () 會找不到函式
+  );
 </script>
 </body>
 </html>

@@ -26,15 +26,32 @@
 
     // Some and Every Checks
     // Array.prototype.some() // is at least one person 19 or older?
+    var ans = people.some(person =>((new Date()).getFullYear()) - person.year >= 19);
+    console.log(ans);
     // Array.prototype.every() // is everyone 19 or older?
+    var ans = people.every(person => ((new Date()).getFullYear()) - person.year >= 19);
+    console.log(ans)
 
     // Array.prototype.find()
     // Find is like filter, but instead returns just the one you are looking for
     // find the comment with the ID of 823423
+    var ans = comments.find(comment => comment.id === 823423);
+    console.log(ans)
 
     // Array.prototype.findIndex()
+    const ans4 = comments.findIndex(comment => comment.id === 823423);
+    console.log(ans4)
+
     // Find the comment with this ID
     // delete the comment with the ID of 823423
+    
+    // const ans5  = comments.splice(ans4, 1);
+    // console.table(ans5); // 被刪掉的資料
+    // console.table(comments); // 刪除資料後的檔案
+
+    const newComments = [...comments.slice(0, ans4), ...comments.slice(ans4 + 1)];
+    console.table(newComments);
+
 
   </script>
 </body>

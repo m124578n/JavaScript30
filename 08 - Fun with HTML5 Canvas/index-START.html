@@ -7,6 +7,45 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+  const canvas = document.querySelector('#draw');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  ctx.strokeStyle = '#BADA55'; 
+  ctx.lineJoin = 'round'; // 轉角為圓形
+  ctx.lineCap = 'round'; // 畫筆為圓形
+
+  let isDrawing = false;
+  let drawX = 0;
+  let drawY = 0;
+  let lineWidth = -100;
+  let colorDeg = 0;
+
+  canvas.addEventListener('mousedown', function(e){
+      // console.log(e);
+      isDrawing = true;  
+      [drawX, drawY] = [e.offsetX, e.offsetY];
+  })
+
+  canvas.addEventListener('mousemove', function(e){
+      if(!isDrawing) return;
+      // console.log(e);
+
+      ctx.lineWidth = Math.abs(lineWidth);
+      ctx.strokeStyle = `hsl(${colorDeg}, 100%, 50%)`;
+
+      ctx.beginPath();
+      ctx.moveTo(drawX, drawY);
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      [drawX, drawY] = [e.offsetX, e.offsetY];
+
+      lineWidth < 100 ? lineWidth += 1.5 : lineWidth = -100;
+      colorDeg < 360 ? colorDeg += 1 : colorDeg = 0;
+  })
+
+  canvas.addEventListener('mouseup', () => isDrawing = false)
+  canvas.addEventListener('mouseout', () => isDrawing = false)
 </script>
 
 <style>

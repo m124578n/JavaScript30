@@ -7,6 +7,24 @@
 </head>
 <body>
 <script>
+  const now = [];
+  const secretKey = "baieQQ";
+
+  window.addEventListener('keyup', (e) => {
+    console.log(e.key);
+    if(!e.key.match("^[a-zA-Z0-9]{1}$")){
+      return;
+    }
+    now.push(e.key);
+    if(now.length > secretKey.length){
+        now.splice(0, 1);
+    }
+    if (now.join('').includes(secretKey)){
+      cornify_add();
+      console.log('iwiwi');
+    }
+    console.log(now);
+  });
 </script>
 </body>
 </html>
